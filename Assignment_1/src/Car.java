@@ -28,7 +28,10 @@ public class Car {
             fuelLevel -= requiredFuel;
             return true;
         }
-        return false;
+        else{
+            fuelLevel=0;
+            return false;
+        }
     }
 
     public void refill() {
