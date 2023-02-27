@@ -20,11 +20,12 @@ public class Car {
         return fuelLevel;
     }
 
-    public boolean canMakeTrip(double distance) {
-        double fuelRequired = (distance / 100)* model.getFuelEconomy();
-        if(fuelRequired<=fuelLevel){
+    public boolean makeATrip(double distance) {
+        double requiredFuel = (distance* model.getFuelEconomy())/100.00;
+        if(requiredFuel<=fuelLevel){
+//            System.out.println(requiredFuel+" "+ fuelLevel);
             tripHistory.add(distance);
-            fuelLevel -= fuelRequired;
+            fuelLevel -= requiredFuel;
             return true;
         }
         return false;
@@ -35,9 +36,9 @@ public class Car {
     }
 
     public int getNoOfLongTrips(double distance){
-        int ret=0;
-        for(Double trip:tripHistory){
-            if(trip>=distance) ret++;
+        int ret=0,SIZE = tripHistory.size(),i;
+        for(i=0;i<SIZE;i++){
+            if(tripHistory.get(i)>=distance) ret++;
         }
         return ret;
     }

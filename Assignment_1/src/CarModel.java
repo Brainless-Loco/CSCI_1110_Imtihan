@@ -1,10 +1,10 @@
 public class CarModel {
-    private String name;
+    private String modelName;
     private double fuelEconomy;
     private double tankCapacity;
 
-    public CarModel(String name, double fuelEconomy, double tankCapacity) {
-        this.name = name;
+    public CarModel(String modelName, double fuelEconomy, double tankCapacity) {
+        this.modelName = modelName;
         this.fuelEconomy = fuelEconomy;
         this.tankCapacity = tankCapacity;
     }
@@ -18,6 +18,6 @@ public class CarModel {
     }
 
     public String getModelName() {
-        return name;
+        return modelName;
     }
 }

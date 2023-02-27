@@ -7,82 +7,92 @@ public class Main {
         
         Scanner input = new Scanner(System.in);
 
-        ArrayList<CarModel> carModels = new ArrayList<>();
         ArrayList<Car> cars = new ArrayList<>();
+        ArrayList<CarModel> carModels = new ArrayList<>();
 
-        while (true) {
-            String command = input.next();
+        String whatToDo,modelName;
+        double fuelEconomy,tankCapacity,distance;
+        int plateNumber,i,SIZE;
+        boolean finish=false;
 
-            if (command.equals("MODEL")) {
-                String modelName = input.next();
-                double fuelEconomy = input.nextDouble();
-                double tankCapacity = input.nextDouble();
+        Car car=null;
 
-                CarModel carModel = new CarModel(modelName, fuelEconomy, tankCapacity);
-                carModels.add(carModel);
-            }
-            else if (command.equals("CAR")) {
-                String modelName = input.next();
-                int plateNumber = input.nextInt();
+        while(finish==false){
+            whatToDo = input.next();
+            switch (whatToDo){
+                case "MODEL":
+                    modelName = input.next();
+                    fuelEconomy = input.nextDouble();
+                    tankCapacity = input.nextDouble();
 
-                for (CarModel carModel : carModels) {
-                    if (carModel.getModelName().equals(modelName)) {
-                        Car car = new Car(plateNumber, carModel);
-                        cars.add(car);
-                        break;
+                    CarModel carModel = new CarModel(modelName, fuelEconomy, tankCapacity);
+                    carModels.add(carModel);
+                    break;
+                case "CAR":
+                    modelName = input.next();
+                    plateNumber = input.nextInt();
+                    SIZE=carModels.size();
+                    for(i=0;i<SIZE;i++){
+                        if (carModels.get(i).getModelName().equals(modelName)) {
+                            car = new Car(plateNumber, carModels.get(i));
+                            cars.add(car);
+                            break;
+                        }
                     }
-                }
-            }
-            else if (command.equals("TRIP")) {
-                int plateNumber = input.nextInt();
-                double distance = input.nextDouble();
+                    break;
+                case "TRIP":
+                    plateNumber = input.nextInt();
+                    distance = input.nextDouble();
 
-                Car car = null;
-                for (Car c : cars) {
-                    if (c.getPlateNumber() == plateNumber) {
-                        car = c;
-                        break;
+                    SIZE=cars.size();
+                    for(i=0;i<SIZE;i++){
+                        if (cars.get(i).getPlateNumber() == plateNumber) {
+                            car = cars.get(i);
+                            break;
+                        }
                     }
-                }
-
-                if (car.canMakeTrip(distance)) {
-                    System.out.printf("Trip completed successfully for #%d\n",car.getPlateNumber());
-                }
-                else {
-                    System.out.printf("Not enough fuel for #%d\n",car.getPlateNumber());
-                }
-            }
-            else if (command.equals("REFILL")) {
-                int plateNumber = input.nextInt();
-
-                Car car = null;
-                for (Car c : cars) {
-                    if (c.getPlateNumber() == plateNumber) {
-                        car = c;
-                        break;
+                    if (car.makeATrip(distance)) {
+                        System.out.printf("Trip completed successfully for #%d\n",car.getPlateNumber());
                     }
-                }
-                car.refill();
-            }
-            else if(command.equals("LONGTRIPS")){
-                int plateNumber = input.nextInt();
-                double distance = input.nextDouble();
-
-                Car car = null;
-                for (Car c : cars) {
-                    if (c.getPlateNumber() == plateNumber) {
-                        car = c;
-                        break;
+                    else {
+                        System.out.printf("Not enough fuel for #%d\n",car.getPlateNumber());
                     }
-                }
-                System.out.printf("#%d made %d trips longer than %.2f\n",plateNumber,car.getNoOfLongTrips(distance),distance);
+                    break;
+                case "REFILL":
+                    plateNumber = input.nextInt();
+                    SIZE=cars.size();
+                    for(i=0;i<SIZE;i++){
+                        if (cars.get(i).getPlateNumber() == plateNumber) {
+                            car = cars.get(i);
+                            car.refill();
+                            break;
+                        }
+                    }
+                    break;
+                case "LONGTRIPS":
+                    plateNumber = input.nextInt();
+                    distance = input.nextDouble();
 
-            }
-            else if (command.equals("FINISH")) {
-                break;
+                    SIZE=cars.size();
+
+                    for(i=0;i<SIZE;i++){
+                        if (cars.get(i).getPlateNumber() == plateNumber) {
+                            car = cars.get(i);
+                            System.out.printf("#%d made %d trips longer than ",plateNumber,car.getNoOfLongTrips(distance),distance);
+                            if(distance==Math.ceil(distance)){
+                                System.out.printf("%d\n",(int)distance);
+                            }
+                            else{
+                                System.out.printf("%.2f\n",distance);
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                case "FINISH":
+                    finish = true;
+                    break;
             }
         }
-
-        input.close();
     }
 }
