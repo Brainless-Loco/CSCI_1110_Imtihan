@@ -7,6 +7,7 @@ public class Board {
         this.size = size;
         this.grid = new GamePiece[size][size];
     }
+    
 
     public Board(Board new_board){
         this.size = new_board.size;
