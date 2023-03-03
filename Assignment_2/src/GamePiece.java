@@ -1,7 +1,7 @@
 public class GamePiece {
     private  String symbol = "";
 
-    public void GamePiece(String symbol){
+    public GamePiece(String symbol){
         this.symbol = symbol;
     }
 
